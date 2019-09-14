@@ -164,6 +164,17 @@ contract Emin =
           document.getElementById("just_register").style.visibility = 'hidden'
       }
 
+      async function add_q() {
+          const question = document.getElementById("question").value
+          const answers = [1,2,3,4].map(id=>document.getElementById("answer"+id).value)
+          const right_answer = document.getElementById("right_answer").value
+          await contract.methods.add_question(question,right_answer,answers)
+          document.getElementById("question").value = ""
+          document.getElementById("right_answer").value = ""
+          [1,2,3,4].forEach(id=>document.getElementById("answer"+id).value = "")
+          
+      }
+
   </script>
 
 Hello world?!
@@ -180,6 +191,14 @@ Change the magic number
 <div id="first_question">First Question</div>
 
 <div id="all_answer">All answers</div>
+
+<input id="question">
+<input id="answer1">
+<input id="answer2">
+<input id="answer3">
+<input id="answer4">
+<input id="right_answer">
+<button id="add_q" onclick="add_q()">ADD QUESTION</button>
 
 <br>
 
