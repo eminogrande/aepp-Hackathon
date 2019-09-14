@@ -34,6 +34,11 @@ contract Emin =
         console.log("Your address is " + pkey);
         document.getElementById('log').innerHTML = pkey;
       })
+
+      const contract = await aeInstance.getContractInstance(my_contract, {contractAddress:"ct_235Ya3fdusezouwvJ73VYzWJkobmXFgAgg4RdtsaJnt4jtix3D"});
+      const callResult = await contract.methods.read_test_value();
+      console.log("Async await style result: " + callResult);
+
       aeInstance.getContractInstance(my_contract, {contractAddress:"ct_235Ya3fdusezouwvJ73VYzWJkobmXFgAgg4RdtsaJnt4jtix3D"}).then(contract => {
         contract.methods.read_test_value().then(here_it_is => {
             console.log(here_it_is);
