@@ -34,7 +34,7 @@ contract Emin =
         console.log("Your address is " + pkey);
         document.getElementById('log').innerHTML = pkey;
       })
-      aeInstance.getContractInstance(my_contract, {contractAddress:"ct_235Ya3fdusezouwvJ73VYzWJkobmXFgAgg4RdtsaJnt4jtix3D"}).then(contractfile => {
+      aeInstance.getContractInstance(my_contract, {contractAddress:"ct_235Ya3fdusezouwvJ73VYzWJkobmXFgAgg4RdtsaJnt4jtix3D"}).then(contract => {
         contract.methods.read_test_value().then(here_it_is => {
             console.log("here it is: " + here_it_is);
         })
