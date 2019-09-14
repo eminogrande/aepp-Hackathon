@@ -213,7 +213,7 @@ contract Emin =
 
       async function submit_answer(event){
         console.log(event)
-        const next_question = await contract.methods.make_answer(current_question_id, event.target.value)
+        const next_question = await contract.methods.make_answer(current_question_id, event.textContent)
         console.log(next_question)
       }
 
@@ -260,10 +260,10 @@ Right Answer
 <h1>Play Game</h1>
 
 <div id="display_question">???</div>
-<button id="a1" onclick="submit_answer($event)">1</button>
-<button id="a2" onclick="submit_answer($event)">2</button>
-<button id="a3" onclick="submit_answer($event)">3</button>
-<button id="a4" onclick="submit_answer($event)">4</button>
+<button id="a1" onclick="submit_answer(this)">1</button>
+<button id="a2" onclick="submit_answer(this)">2</button>
+<button id="a3" onclick="submit_answer(this)">3</button>
+<button id="a4" onclick="submit_answer(this)">4</button>
 
 
 </body>
