@@ -174,7 +174,11 @@ contract Emin =
           await contract.methods.add_question(question,right_answer,answers)
           document.getElementById("question").value = ""
           document.getElementById("right_answer").value = ""
-          [1,2,3,4].forEach(id=>document.getElementById("answer"+id).value = "")
+          document.getElementById("answer1").value = ""
+          document.getElementById("answer2").value = ""
+          document.getElementById("answer3").value = ""
+          document.getElementById("answer4").value = ""
+         // [1,2,3,4].forEach(id=>document.getElementById("answer"+id).value = "")
           
       }
 
