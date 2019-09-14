@@ -223,6 +223,7 @@ contract Emin =
             console.log("You loose")
         }
         else {
+        current_question_id = next_question.id
         document.getElementById("display_question").innerHTML = next_question.text
         document.getElementById("a1").innerHTML = next_question.answers[0]
         document.getElementById("a2").innerHTML = next_question.answers[1]
