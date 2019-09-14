@@ -101,6 +101,9 @@ contract Emin =
 
     stateful entrypoint start_game() = 
         put(state{game_started = true})
+    
+    entrypoint is_game_started() : bool =
+        state.game_started
 
     public entrypoint get_question(id: int) : question =
         state.questions[id] 
@@ -122,6 +125,7 @@ contract Emin =
     let my_aepp
     let contract
     let already_registered = false
+    let current_question_id = 1
 
     async function start_aepp() {
         my_aepp = await Ae.Aepp()
@@ -187,6 +191,24 @@ contract Emin =
           console.log("Game Started!")
       }
 
+      async function check_if_game_started(){
+          setInterval(async()=>{
+            if((await contract.methods.is_game_started()).decodedResult){
+                await get_first_question()
+            }
+          }, 5000)
+      }
+
+      async function get_first_question(){
+        const q1 = (await contract.methods.get_question(1)).decodedResult
+        document.getElementById("display_question").innerHTML = q1.text
+        document.getElementById("a1").innerHTML = q1.answers[0]
+        document.getElementById("a2").innerHTML = q1.answers[1]
+        document.getElementById("a3").innerHTML = q1.answers[2]
+        document.getElementById("a4").innerHTML = q1.answers[3]
+
+      }
+
   </script>
 
 Hello world?!
@@ -225,6 +247,15 @@ Right Answer
 <h1>Register</h1>
 
 <button id="just_register" onclick="register()">Register</button>
+
+<br>
+<h1>Play Game</h1>
+
+<div id="display_question">???</div>
+<button id="a1" onclick="submit_answer(1)">1</button>
+<button id="a2" onclick="submit_answer(2)">2</button>
+<button id="a3" onclick="submit_answer(3)">3</button>
+<button id="a4" onclick="submit_answer(4)">4</button>
 
 
 </body>
