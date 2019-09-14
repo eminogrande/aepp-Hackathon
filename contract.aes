@@ -1,0 +1,17 @@
+contract Emin =
+
+    record state = 
+        { testvalue: int }
+
+    stateful entrypoint init() = 
+        { testvalue = 42 }
+    
+    public entrypoint read_test_value() : int =
+        state.testvalue
+    
+    public entrypoint return_caller() : address =
+        Call.caller
+
+    public stateful entrypoint add_test_value(new_testvalue: int) : int =
+        put(state{testvalue = new_testvalue}) 
+        new_testvalue
