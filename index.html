@@ -126,6 +126,7 @@ contract Emin =
     let contract
     let already_registered = false
     let current_question_id = 1
+    let interval_id
 
     async function start_aepp() {
         my_aepp = await Ae.Aepp()
@@ -193,7 +194,7 @@ contract Emin =
       }
 
       async function check_if_game_started(){
-          setInterval(async()=>{
+          interval_id = setInterval(async()=>{
             if((await contract.methods.is_game_started()).decodedResult){
                 await get_first_question()
             }
@@ -201,13 +202,19 @@ contract Emin =
       }
 
       async function get_first_question(){
+        clearInterval(interval_id)
         const q1 = (await contract.methods.get_question(1)).decodedResult
         document.getElementById("display_question").innerHTML = q1.text
         document.getElementById("a1").innerHTML = q1.answers[0]
         document.getElementById("a2").innerHTML = q1.answers[1]
         document.getElementById("a3").innerHTML = q1.answers[2]
         document.getElementById("a4").innerHTML = q1.answers[3]
+      }
 
+      async function submit_answer(event){
+        console.log(event)
+        const next_question = await contract.methods.make_answer(current_question_id, event.target.value)
+        console.log(next_question)
       }
 
   </script>
@@ -253,10 +260,10 @@ Right Answer
 <h1>Play Game</h1>
 
 <div id="display_question">???</div>
-<button id="a1" onclick="submit_answer(1)">1</button>
-<button id="a2" onclick="submit_answer(2)">2</button>
-<button id="a3" onclick="submit_answer(3)">3</button>
-<button id="a4" onclick="submit_answer(4)">4</button>
+<button id="a1" onclick="submit_answer($event)">1</button>
+<button id="a2" onclick="submit_answer($event)">2</button>
+<button id="a3" onclick="submit_answer($event)">3</button>
+<button id="a4" onclick="submit_answer($event)">4</button>
 
 
 </body>
