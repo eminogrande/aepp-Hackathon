@@ -25,41 +25,37 @@ contract Emin =
     public stateful entrypoint add_test_value(new_testvalue: int) : int =
         put(state{testvalue = new_testvalue}) 
         new_testvalue`
-     
-    Ae.Aepp().then(async aeInstance => {
-      aeInstance.height().then(height => {
-        console.log("Current Block Height: " + height)
-      })
-      aeInstance.address().then(pkey => {
-        console.log("Your address is " + pkey);
-        document.getElementById('log').innerHTML = pkey;
-      })
 
-      const contract = await aeInstance.getContractInstance(my_contract, {contractAddress:"ct_235Ya3fdusezouwvJ73VYzWJkobmXFgAgg4RdtsaJnt4jtix3D"});
-      const callResult = await contract.methods.read_test_value();
-      console.log("Async await style result: " + callResult);
+    let my_aepp
+    let contract
+    async function start_aepp() {
+        my_aepp = await Ae.Aepp();
+        const block_height = await my_aepp.height();
+        console.log(block_height);
+        const user_address = await my_aepp.address();
+        console.log(user_address);
 
-      aeInstance.getContractInstance(my_contract, {contractAddress:"ct_235Ya3fdusezouwvJ73VYzWJkobmXFgAgg4RdtsaJnt4jtix3D"}).then(contract => {
-        contract.methods.read_test_value().then(here_it_is => {
-            console.log(here_it_is);
-            console.log("here it is: " + here_it_is.decodedResult);
-            document.getElementById('static_result').innerHTML = "<h1>" + here_it_is.decodedResult + "</h1>";
-        })
-      })
-    })
+        document.getElementById('log').innerHTML = user_address;
 
-    function magic_function() {
-          let new_number = document.getElementById('new_number_baby').value;
+        contract = await aeInstance.getContractInstance(my_contract, {contractAddress:"ct_235Ya3fdusezouwvJ73VYzWJkobmXFgAgg4RdtsaJnt4jtix3D"});
+        const {decodedResult:value_from_json} = await contract.methods.read_test_value();
+        console.log("Async await style result: " + value_from_json);
+        document.getElementById('static_result').innerHTML = value_from_json;   
+    }
+
+    start_aepp().catch(error => console.log(error));
+
+    async function magic_function() {
+          const new_number = document.getElementById('new_number_baby').value;
           console.log(new_number);
-
-          Ae.Aepp().then(aeInstance => {
-              aeInstance.getContractInstance(my_contract, {contractAddress:"ct_235Ya3fdusezouwvJ73VYzWJkobmXFgAgg4RdtsaJnt4jtix3D"}).then(also_contract => {
-                  also_contract.methods.add_test_value(new_number).then(updateHTML => {
-                      document.getElementById('static_result').innerHTML = updateHTML.decodedResult;
-                  })
-              })
-          })
-
+          // destuction of object best way (first way)
+          //const {decodedResult:put_value} = await contract.methods.add_test_value(new_number);
+          // second way
+          const put_value_again = (await contract.methods.add_test_value(new_number)).decodedResult;
+          // third way
+          //const put_value_again_again = await contact.methods.add_test_value(new_number);
+          //console.log(put_value_again_again.decodedResult);
+          document.getElementById('static_result').innerHTML = put_value_again;
       }
 
   </script>
