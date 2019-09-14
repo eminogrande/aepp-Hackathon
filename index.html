@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+</head>
+<body>
+  <!-- include latest SDK version -->
+  <script src="https://unpkg.com/@aeternity/aepp-sdk/dist/aepp-sdk.browser-script.js"></script>
+  <script type="text/javascript">
+    Ae.Aepp().then(aeInstance => {
+      aeInstance.height().then(height => {
+        console.log("Current Block Height:" + height)
+      })
+    })
+  </script>
+</body>
+</html>
