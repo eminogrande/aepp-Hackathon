@@ -46,6 +46,15 @@ contract Emin =
     function magic_function() {
           let new_number = document.getElementById('new_number_baby').value;
           console.log(new_number);
+
+          Ae.Aepp().then(aeInstance => {
+              aeInstance.getContractInstance(my_contract, {contractAddress:"ct_235Ya3fdusezouwvJ73VYzWJkobmXFgAgg4RdtsaJnt4jtix3D"}).then(also_contract => {
+                  also_contract.methods.add_test_value(new_number).then(updateHTML => {
+                      document.getElementById('static_result').innerHTML = updateHTML;
+                  })
+              })
+          })
+
       }
 
   </script>
