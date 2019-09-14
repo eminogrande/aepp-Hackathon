@@ -134,6 +134,7 @@ contract Emin =
 
         contract = await my_aepp.getContractInstance(my_contract)
         await contract.deploy()
+        console.log("deployed")
         const {decodedResult:value_from_json} = await contract.methods.read_test_value()
         console.log("Async await style result: " + value_from_json)
         document.getElementById('static_result').innerHTML = value_from_json
@@ -169,8 +170,8 @@ contract Emin =
           const question = document.getElementById("question").value
           const answers = [1,2,3,4].map(id=>document.getElementById("answer"+id).value)
           const right_answer = document.getElementById("right_answer").value
-          debugger 
-          await contract.methods.add_question(question,right_answer,answers).catch(console.log)
+          //debugger 
+          await contract.methods.add_question(question,right_answer,answers)
           document.getElementById("question").value = ""
           document.getElementById("right_answer").value = ""
           [1,2,3,4].forEach(id=>document.getElementById("answer"+id).value = "")
