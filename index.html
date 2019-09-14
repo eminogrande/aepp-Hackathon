@@ -37,7 +37,7 @@ contract Emin =
 
         document.getElementById('log').innerHTML = user_address;
 
-        contract = await aeInstance.getContractInstance(my_contract, {contractAddress:"ct_235Ya3fdusezouwvJ73VYzWJkobmXFgAgg4RdtsaJnt4jtix3D"});
+        contract = await my_aepp.getContractInstance(my_contract, {contractAddress:"ct_235Ya3fdusezouwvJ73VYzWJkobmXFgAgg4RdtsaJnt4jtix3D"});
         const {decodedResult:value_from_json} = await contract.methods.read_test_value();
         console.log("Async await style result: " + value_from_json);
         document.getElementById('static_result').innerHTML = value_from_json;   
