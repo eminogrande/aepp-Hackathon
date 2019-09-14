@@ -12,9 +12,13 @@
         console.log("Current Block Height:" + height)
       })
       aeInstance.address().then(pkey => {
-        console.log("Your address is" + pkey)
+        console.log("Your address is" + pkey);
+        document.getElementById('log').innerHTML += '<br>' + pkey;
       })
     })
   </script>
+
+<div id="log">initial content</div>
+
 </body>
 </html>
