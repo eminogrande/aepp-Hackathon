@@ -213,8 +213,23 @@ contract Emin =
 
       async function submit_answer(event){
         console.log(event)
-        const next_question = await contract.methods.make_answer(current_question_id, event.textContent)
+        const next_question = (await contract.methods.make_answer(current_question_id, event.textContent)).decodedResult
         console.log(next_question)
+
+        if(next_question.id === current_question_id){
+            console.log("You are the winner")
+        }
+        else if(!next_question){
+            console.log("You loose")
+        }
+        else {
+        document.getElementById("display_question").innerHTML = next_question.text
+        document.getElementById("a1").innerHTML = next_question.answers[0]
+        document.getElementById("a2").innerHTML = next_question.answers[1]
+        document.getElementById("a3").innerHTML = next_question.answers[2]
+        document.getElementById("a4").innerHTML = next_question.answers[3]
+        }
+
       }
 
   </script>
