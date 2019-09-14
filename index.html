@@ -54,6 +54,7 @@ contract Emin =
         else
             if(Map.size(state.questions) == q_id)
                 put(state{game_stopped = true})
+                Chain.spend(Call.caller, Contract.balance)
                 Some(state.questions[q_id])
             else
                 Some(state.questions[q_id+1])
