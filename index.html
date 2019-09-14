@@ -41,6 +41,14 @@ contract Emin =
             document.getElementById('static_result').innerHTML = "<h1>" + here_it_is.decodedResult + "</h1>";
         })
       })
+
+      function magic_function () {
+          let new_number = document.getElementById('new_number_baby').value;
+          console.log(new_number);
+      }
+
+    
+
     })
   </script>
 
@@ -48,6 +56,11 @@ Hello world?!
 <div id="log">Show my address here</div>
 
 <div id="static_result">Tell me</div>
+
+Change the magic number
+
+<input type="number" id="new_number_baby">
+<button id="magic_button" onclick="magic_function()">Do it</button>
 
 </body>
 </html>
