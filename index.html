@@ -38,6 +38,7 @@ contract Emin =
         contract.methods.read_test_value().then(here_it_is => {
             console.log(here_it_is);
             console.log("here it is: " + here_it_is.decodedResult);
+            document.getElementById('static_result').innerHTML = "<h1>" + here_it_is.decodedResult + "</h1>";
         })
       })
     })
@@ -45,6 +46,8 @@ contract Emin =
 
 Hello world?!
 <div id="log">Show my address here</div>
+
+<div id="static_result">Tell me</div>
 
 </body>
 </html>
