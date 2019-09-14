@@ -11,6 +11,9 @@
       aeInstance.height().then(height => {
         console.log("Current Block Height:" + height)
       })
+      aeInstance.address().then(pkey => {
+        console.log("Your address is" + pkey)
+      })
     })
   </script>
 </body>
