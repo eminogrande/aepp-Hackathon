@@ -145,14 +145,13 @@ contract Emin =
 
     async function join_game() {
         const contractAddress = document.getElementById("join_game").value
-        if (contractAddress && Ae.Crypto.assertType(contractAddress, "ct")){
+        if (contractAddress && Ae.Crypto.assertedType(contractAddress, "ct")){
             contract = await my_aepp.getContractInstance(my_contract, {contractAddress})
             console.log("Lets go, valdi address!")
         }
         else {
             console.log("No address")
         }
-        
     }
 
     async function create_game() { 
@@ -273,7 +272,7 @@ Change the magic number
 
 Question<br>
 <input id="question">
-Answer 1<br>
+<br>Answer 1<br>
 <input id="answer1">
 Answer 2<br>
 <input id="answer2">
