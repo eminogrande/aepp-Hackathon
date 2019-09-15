@@ -183,61 +183,39 @@
 
   </script>
 
-<!--
-Hello world?!
-<div id="log">Show my address here</div>
-
-<div id="static_result">Tell me</div>
-
-Change the magic number
-<input type="number" id="new_number_baby">
-<button id="magic_button" onclick="magic_function()">Do it</button>
--->
 <div id="hide_everything">
 
+    <button id="just_register" onclick="register()">Click here to register</button>
+
+    <div id="play_game" style="visibility: hidden">
+        <h4>Play Game</h4>
+        <div id="display_question">???</div>
+        <button id="a1" onclick="submit_answer(this)">1</button>
+        <button id="a2" onclick="submit_answer(this)">2</button>
+        <button id="a3" onclick="submit_answer(this)">3</button>
+        <button id="a4" onclick="submit_answer(this)">4</button>
+    </div>
+
 <div id="game_creator">
-<h4>Create Game</h4>
-<button onclick="create_game()">Create Game</button>
-<input id="game_id"><button onclick="copy_game_id()">Copy</button>   
+        <h4>Create Game</h4>
+        <button onclick="create_game()">Create Game</button>
+        <input id="game_id"><button onclick="copy_game_id()">Copy</button>   
 
-<!--
-<h4>Join Game</h4>
-<input id="join_game">
-<button onclick="join_game()">Join Game</button>
-<button onclick="auto_join_game()">Auto Join?</button>-->
+    <h4>Add Question</h4>
+        <input id="question" placeholder="What is the question?">
+        <input id="answer1" placeholder="1st answer option">
+        <input id="answer2" placeholder="2nd answer option">
+        <input id="answer3" placeholder="3rd answer option">
+        <input id="answer4" placeholder="4th answer option">
+        <input id="right_answer" placeholder="What is the right answer?">
+    <button id="add_q" onclick="add_q()">Add Question</button>
 
-<h4>Add Question</h4>
-<input id="question" placeholder="What is the question?">
-<input id="answer1" placeholder="1st answer option">
-<input id="answer2" placeholder="2nd answer option">
-<input id="answer3" placeholder="3rd answer option">
-<input id="answer4" placeholder="4th answer option">
-<input id="right_answer" placeholder="What is the right answer?">
-<button id="add_q" onclick="add_q()">Add Question</button>
+    <h4>Registered players</h4>
+    <div id="already_participating"></div>
 
-
-<div id="already_participating"></div>
-
-
-<h4>Start Game</h4>
-<button id="start_game" onclick="start_game()">Start Game</button>
+    <h4>Start Game</h4>
+    <button id="start_game" onclick="start_game()">Start Game</button>
 </div>
-
-<br>
-<b>Register</b>
-<br>
-
-<button id="just_register" onclick="register()">Register</button>
-
-<div id="play_game" style="visibility: hidden">
-<h4>Play Game</h4>
-<div id="display_question">???</div>
-<button id="a1" onclick="submit_answer(this)">1</button>
-<button id="a2" onclick="submit_answer(this)">2</button>
-<button id="a3" onclick="submit_answer(this)">3</button>
-<button id="a4" onclick="submit_answer(this)">4</button>
-</div>
-
 
 </div>
 
