@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
 </head>
-<body>
+<body style="overflow: auto">
   <!-- include latest SDK version -->
   <script src="https://unpkg.com/@aeternity/aepp-sdk/dist/aepp-sdk.browser-script.js"></script>
   <script type="text/javascript">
@@ -264,23 +264,23 @@ Change the magic number
 <button id="magic_button" onclick="magic_function()">Do it</button>
 -->
 
-<button onclick="create_game()">Create Game</button>
-<div id="game_id"></div>
 
+<h4>Create Game</h4>
+<button onclick="create_game()">Create Game</button>
+<div id="game_id"></div>    
 
 <h4>Join Game</h4>
 <input id="join_game">
 <button onclick="join_game()">Join Game</button>
 
-
-
-<input id="question" placeholder="Question">
-<input id="answer1" placeholder="First Answer">
-<input id="answer2" placeholder="Second Answer">
-<input id="answer3" placeholder="Third Answer">
-<input id="answer4" placeholder="Right Answer">
-<input id="right_answer">
-<button id="add_q" onclick="add_q()">ADD QUESTION</button>
+<h4>Add Question</h4>
+<input id="question" placeholder="What is the question?">
+<input id="answer1" placeholder="1st answer option">
+<input id="answer2" placeholder="2nd answer option">
+<input id="answer3" placeholder="3rd answer option">
+<input id="answer4" placeholder="4th answer option">
+<input id="right_answer" placeholder="What is the right answer?">
+<button id="add_q" onclick="add_q()">Add Question</button>
 
 
 <br>
