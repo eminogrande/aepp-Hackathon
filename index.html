@@ -74,6 +74,7 @@
         document.getElementById("game_id").value = "https://aepp.earlycrypto.com?g_id=" + contract.deployInfo.address
         get_registered_players()
         document.getElementById("hide_until_started").style.display = 'block'
+        
     }
 
     start_aepp().catch(error => console.log(error))
@@ -197,7 +198,7 @@
 
 <div id="hide_everything">
 
-    <button id="just_register" onclick="register()">Click here to register</button>
+    <button id="just_register" onclick="register()" style="display: none">Click here to register</button>
     <br>
     <b>Number of registered players:</b>
     <div id="already_participating"></div>
