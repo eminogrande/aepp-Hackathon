@@ -128,6 +128,7 @@ contract Emin =
     let already_registered = false
     let current_question_id = 1
     let interval_id
+    let questions_array = []
 
     async function start_aepp() {
         my_aepp = await Ae.Aepp()
@@ -188,6 +189,7 @@ contract Emin =
 
       async function add_q() {
           const question = document.getElementById("question").value
+          questions_array.push(question)
           const answers = [1,2,3,4].map(id=>document.getElementById("answer"+id).value)
           const right_answer = document.getElementById("right_answer").value
           //debugger 
@@ -199,6 +201,7 @@ contract Emin =
           document.getElementById("answer3").value = ""
           document.getElementById("answer4").value = ""
          // [1,2,3,4].forEach(id=>document.getElementById("answer"+id).value = "")
+         console.log(questions_array)
           
       }
 
