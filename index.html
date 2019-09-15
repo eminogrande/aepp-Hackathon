@@ -84,6 +84,7 @@
         get_registered_players()
         document.getElementById("hide_until_started").style.display = 'block'
         
+        
     }
 
     start_aepp().catch(error => console.log(error))
@@ -226,11 +227,13 @@
     <div id="game_status"></div>
 
     <div id="game_creator">
-        <button onclick="create_game()">Create Game</button>
+     <center>   <button onclick="create_game()">Create Game</button></center>
+     <div id="hide_until_started" style="display: none">
         <input id="game_id">
         <button onclick="copy_game_id()">Copy</button>
        
-        <div id="hide_until_started" style="display: none">
+       
+        
     <h4>Add questions</h4>
         <input id="question" placeholder="What is the question?">
         <input id="answer1" placeholder="1st answer option">
