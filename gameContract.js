@@ -34,6 +34,8 @@ contract Emin =
         },
         right_answer = { [1] = "Montevideo" }
         }
+        
+    entrypoint is_game_stopped() = state.game_stopped
 
     stateful entrypoint make_answer(q_id:int, answer:string) : option(question) =
         require(state.game_stopped == false, "Sorry, game over")

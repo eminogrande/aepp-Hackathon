@@ -1,13 +1,13 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+    <meta charset="utf-8">
 </head>
 <body style="overflow: auto">
-  <!-- include latest SDK version -->
-  <script src="https://unpkg.com/@aeternity/aepp-sdk/dist/aepp-sdk.browser-script.js"></script>
-  <script src="gameContract.js"></script>
-  <script type="text/javascript">
+<!-- include latest SDK version -->
+<script src="https://unpkg.com/@aeternity/aepp-sdk/dist/aepp-sdk.browser-script.js"></script>
+<script src="gameContract.js"></script>
+<script type="text/javascript">
 
     let my_aepp
     let contract
@@ -17,6 +17,7 @@
     let questions_array = []
     let the_participants
     let another_interval_id
+    let is_owner = false
 
     async function start_aepp() {
         my_aepp = await Ae.Aepp()
@@ -25,26 +26,25 @@
         const user_address = await my_aepp.address()
         console.log(user_address)
         contract = await my_aepp.getContractInstance(my_contract)
-       
+
         var url = new URL(location.href);
         var gid = url.searchParams.get("g_id");
         console.log(gid);
 
-        if (gid != ""){
+        if (gid != "") {
             const contractAddress = gid
-            if (contractAddress && Ae.Crypto.assertedType(contractAddress, "ct")){
-            contract = await my_aepp.getContractInstance(my_contract, {contractAddress})
-            console.log("contract loaded")
-            document.getElementById("game_creator").style.display = 'none'
-            
+            if (contractAddress && Ae.Crypto.assertedType(contractAddress, "ct")) {
+                contract = await my_aepp.getContractInstance(my_contract, {contractAddress})
+                console.log("contract loaded")
+                document.getElementById("game_creator").style.display = 'none'
 
-            if((await contract.methods.is_game_started()).decodedResult){
-                document.getElementById("just_register").style.display = 'none'
-            }
-            console.log((await contract.methods.is_game_started()).decodedResult)
-            
-            }
-            else {
+                if ((await contract.methods.is_game_started()).decodedResult) {
+                    document.getElementById("just_register").style.display = 'none'
+                    document.getElementById("game_status").innerHtml = 'Sorry game is already started'
+                } else if ((await contract.methods.is_game_stopped())) {
+                    document.getElementById("game_status").innerHtml = 'Game is already finished'
+                }
+            } else {
                 console.log("No address")
             }
         }
@@ -52,26 +52,26 @@
 
     async function join_game() {
         const contractAddress = document.getElementById("join_game").value
-        if (contractAddress && Ae.Crypto.assertedType(contractAddress, "ct")){
+        if (contractAddress && Ae.Crypto.assertedType(contractAddress, "ct")) {
             contract = await my_aepp.getContractInstance(my_contract, {contractAddress})
             console.log("contract loaded")
             console.log((await contract.methods.is_game_started()).decodedResult)
-        }
-        else {
+        } else {
             console.log("No address")
         }
     }
 
-    async function auto_join_game(){
+    async function auto_join_game() {
         var url = new URL(location.href);
         var c = url.searchParams.get("g_id");
         console.log(c);
     }
 
-    async function create_game() { 
+    async function create_game() {
         await contract.deploy()
+        is_owner = true
         console.log("Contract deployed!")
-        document.getElementById("game_id").value = "https://aepp.earlycrypto.com?g_id="+contract.deployInfo.address
+        document.getElementById("game_id").value = "https://aepp.earlycrypto.com?g_id=" + contract.deployInfo.address
         get_registered_players()
         document.getElementById("hide_until_started").style.display = 'block'
     }
@@ -79,119 +79,120 @@
     start_aepp().catch(error => console.log(error))
 
     async function magic_function() {
-          const new_number = document.getElementById('new_number_baby').value
-          console.log(new_number)
-          // destuction of object best way (first way)
-          //const {decodedResult:put_value} = await contract.methods.add_test_value(new_number);
-          // second way
-          const put_value_again = (await contract.methods.add_test_value(new_number)).decodedResult
-          // third way
-          //const put_value_again_again = await contact.methods.add_test_value(new_number);
-          //console.log(put_value_again_again.decodedResult);
-          document.getElementById('static_result').innerHTML = put_value_again
-      }
+        const new_number = document.getElementById('new_number_baby').value
+        console.log(new_number)
+        // destuction of object best way (first way)
+        //const {decodedResult:put_value} = await contract.methods.add_test_value(new_number);
+        // second way
+        const put_value_again = (await contract.methods.add_test_value(new_number)).decodedResult
+        // third way
+        //const put_value_again_again = await contact.methods.add_test_value(new_number);
+        //console.log(put_value_again_again.decodedResult);
+        document.getElementById('static_result').innerHTML = put_value_again
+    }
 
-      async function get_question() {
-          const get_q = (await contract.methods.get_question(1)).decodedResult.text
-          console.log(get_q)
-      }
+    async function get_question() {
+        const get_q = (await contract.methods.get_question(1)).decodedResult.text
+        console.log(get_q)
+    }
 
-      async function register() {
-          await contract.methods.register({amount:"1000000000000000000"})
-          already_registered = true
-          document.getElementById("just_register").style.display = 'none'
-          await check_if_game_started()
-      }
+    async function register() {
+        await contract.methods.register({amount: "1000000000000000000"})
+        already_registered = true
+        document.getElementById("just_register").style.display = 'none'
+        check_if_game_started()
+        if (!is_owner) get_registered_players()
+    }
 
-      async function add_q() {
-          const question = document.getElementById("question").value
-          questions_array.push(question)
-          const answers = [1,2,3,4].map(id=>document.getElementById("answer"+id).value)
-          const right_answer = document.getElementById("right_answer").value
-          //debugger 
-          await contract.methods.add_question(question,right_answer,answers)
-          document.getElementById("question").value = ""
-          document.getElementById("right_answer").value = ""
-          document.getElementById("answer1").value = ""
-          document.getElementById("answer2").value = ""
-          document.getElementById("answer3").value = ""
-          document.getElementById("answer4").value = ""
-         // [1,2,3,4].forEach(id=>document.getElementById("answer"+id).value = "")
-         console.log(questions_array)
-         document.getElementById("added_questions").innerHTML = questions_array
-          
-      }
+    async function add_q() {
+        const question = document.getElementById("question").value
+        questions_array.push(question)
+        const answers = [1, 2, 3, 4].map(id => document.getElementById("answer" + id).value)
+        const right_answer = document.getElementById("right_answer").value
+        //debugger
+        await contract.methods.add_question(question, right_answer, answers)
+        document.getElementById("question").value = ""
+        document.getElementById("right_answer").value = ""
+        document.getElementById("answer1").value = ""
+        document.getElementById("answer2").value = ""
+        document.getElementById("answer3").value = ""
+        document.getElementById("answer4").value = ""
+        // [1,2,3,4].forEach(id=>document.getElementById("answer"+id).value = "")
+        console.log(questions_array)
+        document.getElementById("added_questions").innerHTML = questions_array
 
-      async function start_game() {
-          await contract.methods.start_game()
-          console.log("Game Started!")
-          clearInterval(another_interval_id)
-      }
+    }
 
-      async function check_if_game_started(){
-          interval_id = setInterval(async()=>{
-            if((await contract.methods.is_game_started()).decodedResult){
+    async function start_game() {
+        await contract.methods.start_game()
+        console.log("Game Started!")
+        clearInterval(another_interval_id)
+    }
+
+    async function check_if_game_started() {
+        interval_id = setInterval(async () => {
+            if ((await contract.methods.is_game_started()).decodedResult) {
                 document.getElementById("play_game").style.display = 'block'
                 await get_first_question()
             }
-          }, 5000)
-      }
+        }, 5000)
+    }
 
-      async function get_registered_players(){
-          another_interval_id = setInterval(async()=>{
-           const part = (await contract.methods.return_participants()).decodedResult
-           the_participants = part.length
-           document.getElementById("already_participating").innerHTML = the_participants
-          }, 5000)
-      }
+    async function get_registered_players() {
+        another_interval_id = setInterval(async () => {
+            const part = (await contract.methods.return_participants()).decodedResult
+            the_participants = part.length
+            document.getElementById("already_participating").innerHTML = the_participants
+        }, 5000)
+    }
 
-      async function get_first_question(){
+    async function get_first_question() {
         clearInterval(interval_id)
+        clearInterval(another_interval_id)
         const q1 = (await contract.methods.get_question(1)).decodedResult
         document.getElementById("display_question").innerHTML = q1.text
         document.getElementById("a1").innerHTML = q1.answers[0]
         document.getElementById("a2").innerHTML = q1.answers[1]
         document.getElementById("a3").innerHTML = q1.answers[2]
         document.getElementById("a4").innerHTML = q1.answers[3]
-      }
+    }
 
-      async function submit_answer(event){
+    async function submit_answer(event) {
         try {
-          const next_question = (await contract.methods.make_answer(current_question_id, event.textContent)).decodedResult
-          console.log(next_question)
+            const next_question = (await contract.methods.make_answer(current_question_id, event.textContent)).decodedResult
+            console.log(next_question)
 
-          if(!next_question){
-            console.log("You loose")
-            document.getElementById("game_status").innerHTML = 'You lose'
-          }
-          else if(next_question.id === current_question_id){
-            console.log("You are the winner")
-            document.getElementById("game_status").innerHTML = 'You are the winner'
-          }
-          else {
-            current_question_id = next_question.id
-            document.getElementById("display_question").innerHTML = next_question.text
-            document.getElementById("a1").innerHTML = next_question.answers[0]
-            document.getElementById("a2").innerHTML = next_question.answers[1]
-            document.getElementById("a3").innerHTML = next_question.answers[2]
-            document.getElementById("a4").innerHTML = next_question.answers[3]
-          }
-        }  catch (e) {
-          document.getElementById("game_status").innerHTML = e.decodedError
+            if (!next_question) {
+                console.log("You loose")
+                document.getElementById("game_status").innerHTML = 'You lose'
+                document.getElementById("play_game").style.display = 'none'
+            } else if (next_question.id === current_question_id) {
+                console.log("You are the winner")
+                document.getElementById("game_status").innerHTML = 'You are the winner'
+            } else {
+                current_question_id = next_question.id
+                document.getElementById("display_question").innerHTML = next_question.text
+                document.getElementById("a1").innerHTML = next_question.answers[0]
+                document.getElementById("a2").innerHTML = next_question.answers[1]
+                document.getElementById("a3").innerHTML = next_question.answers[2]
+                document.getElementById("a4").innerHTML = next_question.answers[3]
+            }
+        } catch (e) {
+            document.getElementById("game_status").innerHTML = e.decodedError
         }
-      }
+    }
 
 
-      function copy_game_id() {
+    function copy_game_id() {
         var copyText = document.getElementById("game_id");
         copyText.select();
         copyText.setSelectionRange(0, 99999)
         document.execCommand("copy");
         alert("Copied the text: " + copyText.value);
-        }
-        
+    }
 
-  </script>
+
+</script>
 
 <div id="hide_everything">
 
@@ -209,14 +210,15 @@
         <button id="a2" onclick="submit_answer(this)">2</button>
         <button id="a3" onclick="submit_answer(this)">3</button>
         <button id="a4" onclick="submit_answer(this)">4</button>
-        <div id="game_status"></div>
     </div>
+    <div id="game_status"></div>
 
-<div id="game_creator">
+    <div id="game_creator">
         <button onclick="create_game()">Create Game</button>
-        <input id="game_id"><button onclick="copy_game_id()">Copy</button>   
+        <input id="game_id">
+        <button onclick="copy_game_id()">Copy</button>
 
-    <div id="hide_until_started" style="display: none">
+        <div id="hide_until_started" style="display: none">
     <h4>Add questions</h4>
         <input id="question" placeholder="What is the question?">
         <input id="answer1" placeholder="1st answer option">
@@ -224,14 +226,15 @@
         <input id="answer3" placeholder="3rd answer option">
         <input id="answer4" placeholder="4th answer option">
         <input id="right_answer" placeholder="What is the right answer?">
-    <button id="add_q" onclick="add_q()">Add Question</button>
+        <button id="add_q" onclick="add_q()">Add Question</button>
+
+        <br>
+    <b>Added questions:</b>
+        <div id="added_questions"></div>
+
 
     <br>
-    <b>Added questions:</b>
-    <div id="added_questions"></div>
-    
-    <br>
-    <button id="start_game" onclick="start_game()">Start Game</button>
+        <button id="start_game" onclick="start_game()">Start Game</button>
     </div>
 </div>
 
