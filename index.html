@@ -112,6 +112,7 @@
           document.getElementById("answer4").value = ""
          // [1,2,3,4].forEach(id=>document.getElementById("answer"+id).value = "")
          console.log(questions_array)
+         document.getElementById("added_questions").innerHTML = questions_array
           
       }
 
@@ -209,6 +210,8 @@
         <input id="answer4" placeholder="4th answer option">
         <input id="right_answer" placeholder="What is the right answer?">
     <button id="add_q" onclick="add_q()">Add Question</button>
+
+    <div id="added_questions"></div>
 
     <h4>Registered players</h4>
     <div id="already_participating"></div>
