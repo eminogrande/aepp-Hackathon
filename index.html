@@ -230,14 +230,15 @@ contract Emin =
 
       async function submit_answer(event){
         console.log(event)
+        
         const next_question = (await contract.methods.make_answer(current_question_id, event.textContent)).decodedResult
         console.log(next_question)
 
-        if(next_question.id === current_question_id){
-            console.log("You are the winner")
-        }
-        else if(!next_question){
+        if(!next_question){
             console.log("You loose")
+        }
+        else if(next_question.id === current_question_id){
+            console.log("You are the winner")
         }
         else {
         current_question_id = next_question.id
