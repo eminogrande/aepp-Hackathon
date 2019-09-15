@@ -37,13 +37,22 @@
                 contract = await my_aepp.getContractInstance(my_contract, {contractAddress})
                 console.log("contract loaded")
                 document.getElementById("game_creator").style.display = 'none'
+                document.getElementById("just_register").style.display = 'block'
 
-                if ((await contract.methods.is_game_started()).decodedResult) {
-                    document.getElementById("just_register").style.display = 'none'
-                    document.getElementById("game_status").innerHtml = 'Sorry game is already started'
-                } else if ((await contract.methods.is_game_stopped())) {
-                    document.getElementById("game_status").innerHtml = 'Game is already finished'
-                }
+                contract.methods.is_game_started().then(is_started => {
+                    if (is_started) {
+                        document.getElementById("just_register").style.display = 'none'
+                        document.getElementById("game_status").innerHtml = 'Sorry game is already started'
+                    }
+                })
+
+                contract.methods.is_game_stopped().then(is_game_stopped => {
+                    if (is_game_stopped) {
+                        document.getElementById("game_status").innerHtml = 'Game is already finished'
+                        document.getElementById("just_register").style.display = 'none'
+                    }
+                })
+
             } else {
                 console.log("No address")
             }
