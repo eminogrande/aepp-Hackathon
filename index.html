@@ -190,7 +190,7 @@
     async function create_game() {
         displayElement('loader', true)
         await contract.deploy()
-        displayElement('loader', true)
+        displayElement('loader', false)
         is_owner = true
         console.log("Contract deployed!")
         document.getElementById("game_id").value = "https://aepp.earlycrypto.com?g_id=" + contract.deployInfo.address
@@ -243,7 +243,7 @@
     async function start_game() {
         displayElement('loader', true)
         await contract.methods.start_game()
-        displayElement('loader', true)
+        displayElement('loader', false)
         console.log("Game Started!")
         clearInterval(another_interval_id)
         displayElement("game_creator", false)
