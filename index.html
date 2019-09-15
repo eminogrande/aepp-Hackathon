@@ -36,6 +36,11 @@
             contract = await my_aepp.getContractInstance(my_contract, {contractAddress})
             console.log("contract loaded")
             document.getElementById("game_creator").style.visibility = 'hidden'
+            
+
+            if((await contract.methods.is_game_started()).decodedResult){
+                document.getElementById("just_register").style.visibility = 'hidden'
+            }
             console.log((await contract.methods.is_game_started()).decodedResult)
             
             }
@@ -215,9 +220,10 @@
         <input id="right_answer" placeholder="What is the right answer?">
     <button id="add_q" onclick="add_q()">Add Question</button>
 
+    <b>Added questions:</b>
     <div id="added_questions"></div>
 
-    Registered players:
+    <b>Number of registered players:</b>
     <div id="already_participating"></div>
 
     <button id="start_game" onclick="start_game()">Start Game</button>
