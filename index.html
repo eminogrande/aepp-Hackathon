@@ -206,7 +206,6 @@
         displayElement("hide_until_started", true)
     }
 
-    displayElement('loader', true)
     start_aepp().then(() => {
         displayElement('loader', false)
     }).catch(error => {
