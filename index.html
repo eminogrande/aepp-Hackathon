@@ -162,9 +162,11 @@
                 console.log("contract loaded")
                 displayElement("game_creator", false)
                 displayElement("just_register", true)
+                get_registered_players()
 
                 contract.methods.is_game_started().then(is_started => {
                     if (is_started) {
+                        clearInterval(another_interval_id)
                         displayElement("just_register", false)
                         document.getElementById("game_status").innerHtml = 'Sorry game is already started'
                     }
@@ -172,6 +174,7 @@
 
                 contract.methods.is_game_stopped().then(is_game_stopped => {
                     if (is_game_stopped) {
+                        clearInterval(another_interval_id)
                         displayElement("just_register", false)
                         document.getElementById("game_status").innerHtml = 'Game is already finished'
                     }
@@ -219,7 +222,6 @@
         already_registered = true
         displayElement("just_register", false)
         check_if_game_started()
-        if (!is_owner) get_registered_players()
     }
 
     async function add_q() {
