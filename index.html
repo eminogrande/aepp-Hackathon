@@ -146,7 +146,13 @@ contract Emin =
         const contractAddress = document.getElementById("join_game").value
         if (contractAddress && Ae.Crypto.assertedType(contractAddress, "ct")){
             contract = await my_aepp.getContractInstance(my_contract, {contractAddress})
-            console.log("Lets go, valdi address!")
+            const is_game_started = (await contract.methods.is_game_started()).decodedResult
+            if(is_game_started){
+                console.log("sorry, game already started")
+            }
+            else {
+                console.log("Lets go, valid address!")
+            }
         }
         else {
             console.log("No address")
