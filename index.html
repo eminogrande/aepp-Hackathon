@@ -73,6 +73,7 @@
         console.log("Contract deployed!")
         document.getElementById("game_id").value = "https://aepp.earlycrypto.com?g_id="+contract.deployInfo.address
         get_registered_players()
+        document.getElementById("hide_until_started").style.display = 'block'
     }
 
     start_aepp().catch(error => console.log(error))
@@ -195,6 +196,9 @@
 <div id="hide_everything">
 
     <button id="just_register" onclick="register()">Click here to register</button>
+    <br>
+    <b>Number of registered players:</b>
+    <div id="already_participating"></div>
 
     <div id="play_game" style="display: none">
         <h4>Play Game</h4>
@@ -210,6 +214,7 @@
         <button onclick="create_game()">Create Game</button>
         <input id="game_id"><button onclick="copy_game_id()">Copy</button>   
 
+    <div id="hide_until_started" style="display: none">
     <h4>Add questions</h4>
         <input id="question" placeholder="What is the question?">
         <input id="answer1" placeholder="1st answer option">
@@ -222,13 +227,10 @@
     <br>
     <b>Added questions:</b>
     <div id="added_questions"></div>
-
-    <br>
-    <b>Number of registered players:</b>
-    <div id="already_participating"></div>
     
     <br>
     <button id="start_game" onclick="start_game()">Start Game</button>
+    </div>
 </div>
 
 </div>
