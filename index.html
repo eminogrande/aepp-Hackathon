@@ -34,6 +34,7 @@
             contract = await my_aepp.getContractInstance(my_contract, {contractAddress})
             console.log("contract loaded")
             console.log((await contract.methods.is_game_started()).decodedResult)
+            document.getElementById("game_creator").style.visibility = 'hidden'
             }
             else {
                 console.log("No address")
@@ -164,8 +165,6 @@
         document.execCommand("copy");
         alert("Copied the text: " + copyText.value);
         }
-
-
         
 
   </script>
@@ -180,11 +179,13 @@ Change the magic number
 <input type="number" id="new_number_baby">
 <button id="magic_button" onclick="magic_function()">Do it</button>
 -->
+<div id="hide_everything">
 
-
+<div id="game_creator">
 <h4>Create Game</h4>
 <button onclick="create_game()">Create Game</button>
 <input id="game_id"><button onclick="copy_game_id()">Copy</button>   
+
 
 <!--
 <h4>Join Game</h4>
@@ -203,9 +204,10 @@ Change the magic number
 
 
 <br>
-<b>Register</b>
+<b>Start Game</b>
 <br>
 <button id="start_game" onclick="start_game()">Start Game</button>
+</div>
 
 <br>
 <b>Register</b>
@@ -223,6 +225,7 @@ Change the magic number
 <button id="a3" onclick="submit_answer(this)">3</button>
 <button id="a4" onclick="submit_answer(this)">4</button>
 
+</div>
 
 </body>
 </html>
