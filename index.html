@@ -41,6 +41,12 @@
         }
     }
 
+    async function auto_join_game(){
+        var url = new URL(location.href);
+        var c = url.searchParams.get("g_id");
+        console.log(c);
+    }
+
     async function create_game() { 
         await contract.deploy()
         console.log("Contract deployed!")
@@ -147,6 +153,9 @@
         alert("Copied the text: " + copyText.value);
         }
 
+
+        
+
   </script>
 
 <!--
@@ -168,6 +177,7 @@ Change the magic number
 <h4>Join Game</h4>
 <input id="join_game">
 <button onclick="join_game()">Join Game</button>
+<button onclick="auto_join_game()">Auto Join?</button>
 
 <h4>Add Question</h4>
 <input id="question" placeholder="What is the question?">
