@@ -67,6 +67,7 @@
         await contract.deploy()
         console.log("Contract deployed!")
         document.getElementById("game_id").value = "https://aepp.earlycrypto.com?g_id="+contract.deployInfo.address
+        get_registered_players()
     }
 
     start_aepp().catch(error => console.log(error))
