@@ -15,6 +15,8 @@
     let current_question_id = 1
     let interval_id
     let questions_array = []
+    let the_participants
+    let another_interval_id
 
     async function start_aepp() {
         my_aepp = await Ae.Aepp()
@@ -115,6 +117,7 @@
       async function start_game() {
           await contract.methods.start_game()
           console.log("Game Started!")
+          clearInterval(another_interval_id)
       }
 
       async function check_if_game_started(){
@@ -123,6 +126,14 @@
                 document.getElementById("play_game").style.visibility = 'visible'
                 await get_first_question()
             }
+          }, 5000)
+      }
+
+      async function get_registered_players(){
+          another_interval_id = setInterval(async()=>{
+           const part = (await contract.methods.return_participants()).decodedResult
+           the_participants = part.length
+           document.getElementById("already_participating").innerHTML = the_participants
           }, 5000)
       }
 
@@ -204,9 +215,10 @@ Change the magic number
 <button id="add_q" onclick="add_q()">Add Question</button>
 
 
-<br>
-<b>Start Game</b>
-<br>
+<div id="already_participating"></div>
+
+
+<h4>Start Game</h4>
 <button id="start_game" onclick="start_game()">Start Game</button>
 </div>
 

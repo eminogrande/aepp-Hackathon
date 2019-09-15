@@ -112,4 +112,7 @@ contract Emin =
     public stateful entrypoint add_test_value(new_testvalue: int) : int =
         put(state{testvalue = new_testvalue}) 
         new_testvalue
+    
+    entrypoint return_participants() = 
+        state.participants
 `
