@@ -157,7 +157,8 @@ contract Emin =
 
     async function create_game() { 
         await contract.deploy()
-        document.getElementById("game_id").value = "http://aepp.earlycrypto.com?g_id="+contract.deployInfo.address
+        console.log("Contract deployed!")
+        document.getElementById("game_id").value = "https://aepp.earlycrypto.com?g_id="+contract.deployInfo.address
     }
 
     start_aepp().catch(error => console.log(error))
