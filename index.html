@@ -145,8 +145,9 @@ contract Emin =
 
     async function join_game() {
         const contractAddress = document.getElementById("join_game").value
-        if (!contractAddress && Ae.Crypto.assertType(contractAddress, "ct")){
+        if (contractAddress && Ae.Crypto.assertType(contractAddress, "ct")){
             contract = await my_aepp.getContractInstance(my_contract, {contractAddress})
+            console.log("Lets go, valdi address!")
         }
         else {
             console.log("No address")
