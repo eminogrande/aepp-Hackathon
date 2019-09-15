@@ -135,7 +135,7 @@ contract Emin =
         console.log(block_height)
         const user_address = await my_aepp.address()
         console.log(user_address)
-        document.getElementById('log').innerHTML = user_address
+        //document.getElementById('log').innerHTML = user_address
         contract = await my_aepp.getContractInstance(my_contract)
         //const {decodedResult:value_from_json} = await contract.methods.read_test_value()
         //console.log("Async await style result: " + value_from_json)
