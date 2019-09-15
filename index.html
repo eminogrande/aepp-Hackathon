@@ -135,18 +135,31 @@ contract Emin =
         console.log(block_height)
         const user_address = await my_aepp.address()
         console.log(user_address)
- 
         document.getElementById('log').innerHTML = user_address
-
         contract = await my_aepp.getContractInstance(my_contract)
-        await contract.deploy()
         console.log("deployed")
         const {decodedResult:value_from_json} = await contract.methods.read_test_value()
         console.log("Async await style result: " + value_from_json)
         document.getElementById('static_result').innerHTML = value_from_json
     }
 
-    //start_aepp().catch(error => console.log(error))
+    async function join_game() {
+        const contractAddress = document.getElementById("join_game").value
+        if (!contractAddress && Ae.Crypto.assertType(contractAddress, "ct")){
+            contract = await my_aepp.getContractInstance(my_contract, {contractAddress})
+        }
+        else {
+            console.log("No address")
+        }
+        
+    }
+
+    async function create_game() { 
+        await contract.deploy()
+        document.getElementById("game_id").innerHTML = contract.deployInfo.address
+    }
+
+    start_aepp().catch(error => console.log(error))
 
     async function magic_function() {
           const new_number = document.getElementById('new_number_baby').value
@@ -245,7 +258,13 @@ Change the magic number
 <input type="number" id="new_number_baby">
 <button id="magic_button" onclick="magic_function()">Do it</button>
 
-<button onclick="start_aepp().catch(error => console.log(error))">Deploy Game</button>
+<button onclick="create_game()">Create Game</button>
+<div id="game_id"></div>
+
+
+<h4>Join Game</h4>
+<input id="join_game">
+<button onclick="join_game()">Join Game</button>
 
 
 <div id="first_question">First Question</div>
@@ -265,6 +284,9 @@ Right Answer<br>
 <input id="right_answer">
 <button id="add_q" onclick="add_q()">ADD QUESTION</button>
 
+
+<br>
+<b>Register</b>
 <br>
 <button id="start_game" onclick="start_game()">Start Game</button>
 
