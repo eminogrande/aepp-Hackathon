@@ -33,8 +33,9 @@
             if (contractAddress && Ae.Crypto.assertedType(contractAddress, "ct")){
             contract = await my_aepp.getContractInstance(my_contract, {contractAddress})
             console.log("contract loaded")
-            console.log((await contract.methods.is_game_started()).decodedResult)
             document.getElementById("game_creator").style.visibility = 'hidden'
+            console.log((await contract.methods.is_game_started()).decodedResult)
+            
             }
             else {
                 console.log("No address")
