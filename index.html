@@ -35,11 +35,11 @@
             if (contractAddress && Ae.Crypto.assertedType(contractAddress, "ct")){
             contract = await my_aepp.getContractInstance(my_contract, {contractAddress})
             console.log("contract loaded")
-            document.getElementById("game_creator").style.visibility = 'hidden'
+            document.getElementById("game_creator").style.display = 'none'
             
 
             if((await contract.methods.is_game_started()).decodedResult){
-                document.getElementById("just_register").style.visibility = 'hidden'
+                document.getElementById("just_register").style.display = 'none'
             }
             console.log((await contract.methods.is_game_started()).decodedResult)
             
@@ -98,7 +98,7 @@
       async function register() {
           await contract.methods.register({amount:"1000000000000000000"})
           already_registered = true
-          document.getElementById("just_register").style.visibility = 'hidden'
+          document.getElementById("just_register").style.display = 'none'
           await check_if_game_started()
       }
 
@@ -130,7 +130,7 @@
       async function check_if_game_started(){
           interval_id = setInterval(async()=>{
             if((await contract.methods.is_game_started()).decodedResult){
-                document.getElementById("play_game").style.visibility = 'visible'
+                document.getElementById("play_game").style.display = 'block'
                 await get_first_question()
             }
           }, 5000)
@@ -196,7 +196,7 @@
 
     <button id="just_register" onclick="register()">Click here to register</button>
 
-    <div id="play_game" style="visibility: hidden">
+    <div id="play_game" style="display: none">
         <h4>Play Game</h4>
         <div id="display_question">???</div>
         <button id="a1" onclick="submit_answer(this)">1</button>
