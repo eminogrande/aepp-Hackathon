@@ -255,6 +255,7 @@
     }
 
     async function check_if_game_started() {
+        clearInterval(interval_id)
         interval_id = setInterval(async () => {
             if ((await contract.methods.is_game_started()).decodedResult) {
                 displayElement("play_game", true)
@@ -264,6 +265,7 @@
     }
 
     async function get_registered_players() {
+        clearInterval(another_interval_id)
         another_interval_id = setInterval(async () => {
             const part = (await contract.methods.return_participants()).decodedResult
             the_participants = part.length
