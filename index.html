@@ -271,6 +271,7 @@
             displayElement('game_status', true)
             displayElement('game_link', true)
             displayElement('game_creator', true)
+            displayElement("start_game", true)
             displayElement('player_count', true)
             changeGameStatus('Waiting for start')
             document.getElementById("game_id").value = "https://aepp.earlycrypto.com?g_id=" + contract.deployInfo.address
@@ -341,7 +342,7 @@
             setTimeout(() => {
                 clearInterval(interval_id)
                 clearInterval(another_interval_id)
-            }, 40000)
+            }, 4000)
             displayElement('loader', true)
             const q1 = (await contract.methods.get_question(1)).decodedResult
             document.getElementById("display_question").innerHTML = q1.text
