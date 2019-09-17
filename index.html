@@ -233,7 +233,6 @@
                     }
                 } else {
                     if (!isFinished) {
-                        // show participant
                         displayElement("player_count", true)
                         get_registered_players()
                         const isYouRegistered = (await contract.methods.is_registered()).decodedResult
@@ -339,8 +338,10 @@
     async function get_first_question() {
         try {
             displayElement("play_game", true)
-            clearInterval(interval_id)
-            clearInterval(another_interval_id)
+            setTimeout(() => {
+                clearInterval(interval_id)
+                clearInterval(another_interval_id)
+            }, 40000)
             displayElement('loader', true)
             const q1 = (await contract.methods.get_question(1)).decodedResult
             document.getElementById("display_question").innerHTML = q1.text
