@@ -36,6 +36,21 @@ contract Emin =
         }
         
     entrypoint is_game_stopped() = state.game_stopped
+    entrypoint is_owner() = Contract.creator == Call.caller
+    entrypoint is_registered (): bool = 
+        is_in_list(state.participants)
+    entrypoint get_questions () =
+        require(Contract.creator == Call.caller, "Only a boss now the questions")
+        state.questions
+                    
+    function is_in_list (l: list(address)): bool =
+        switch (l)
+            [] => false
+            p :: res =>
+                if (p == Call.caller)
+                    true
+                else
+                    is_in_list(res)
 
     stateful entrypoint make_answer(q_id:int, answer:string) : option(question) =
         require(state.game_stopped == false, "Sorry, game over")
