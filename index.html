@@ -369,6 +369,8 @@
             } else if (next_question.id === current_question_id) {
                 console.log("You are the winner")
                 displayElement("play_game", false)
+                displayElement("g_status", false)
+                displayElement("player_count", false)
                 displayElement("winwin", true)
             } else {
                 current_question_id = next_question.id
