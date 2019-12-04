@@ -368,7 +368,8 @@
                 displayElement("play_game", false)
             } else if (next_question.id === current_question_id) {
                 console.log("You are the winner")
-                displayElement("You are the winner")
+                displayElement("play_game", false)
+                displayElement("winwin", true)
             } else {
                 current_question_id = next_question.id
                 document.getElementById("display_question").innerHTML = next_question.text
@@ -455,6 +456,7 @@
         </div>
 
     </div>
+    <div id="winwin" style="display: none"><h1>YOU ARE THE WINNER. All tokens are yours. Check your wallet.</h1></div>
     <div id="loader" class="loading">Loading&#8230;</div>
     <hr>
     by Nazar and Emin.
