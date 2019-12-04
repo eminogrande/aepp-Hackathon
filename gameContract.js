@@ -2,7 +2,7 @@ const my_contract =
     `
 contract Emin =
 
-    record state = { 
+    record state = {
         currentQuestionID: int,
         testvalue: int,
         questions: map(int, question),
@@ -24,7 +24,7 @@ contract Emin =
         participants = [],
         game_started = false,
         game_stopped = false,
-        questions = 
+        questions =
         {
             [1] = {
                 id = 1,
@@ -34,15 +34,15 @@ contract Emin =
         },
         right_answer = { [1] = "Montevideo" }
         }
-        
+
     entrypoint is_game_stopped() = state.game_stopped
     entrypoint is_owner() = Contract.creator == Call.caller
-    entrypoint is_registered (): bool = 
+    entrypoint is_registered (): bool =
         is_in_list(state.participants)
     entrypoint get_questions () =
         require(Contract.creator == Call.caller, "Only a boss now the questions")
         state.questions
-                    
+
     function is_in_list (l: list(address)): bool =
         switch (l)
             [] => false
@@ -66,8 +66,8 @@ contract Emin =
                 Some(state.questions[q_id])
             else
                 Some(state.questions[q_id+1])
-            
-    
+
+
     function delete_from_partipants(participant:address, participants: list(address)) : list(address) =
         switch (participants)
             [] => []
@@ -77,7 +77,7 @@ contract Emin =
                 else
                     delete_from_partipants(participant, rest_participants)
 
-    
+
     public entrypoint is_this_the_right_answer(id: int,answer: string) : bool =
         state.right_answer[id] == answer
 
@@ -87,10 +87,10 @@ contract Emin =
         put(state{
             currentQuestionID = next_id,
             questions[next_id] = {text = question, id = next_id, answers = all},
-            right_answer[next_id] = right 
+            right_answer[next_id] = right
             })
-    
-    stateful entrypoint register() : bool =
+
+    payable stateful entrypoint register() : bool =
         require(state.game_started == false, "Game already started")
         require(Call.value == 1000000000000000000, "Not enough tokens")
         if (check_if_registered(state.participants) == false)
@@ -102,34 +102,34 @@ contract Emin =
     function check_if_registered(participants: list(address)) : bool =
         switch (participants)
             [] => false
-            element :: rest_of_list => 
+            element :: rest_of_list =>
                 if (element == Call.caller)
                     true
                 else
                     check_if_registered(rest_of_list)
 
-    stateful entrypoint start_game() = 
+    stateful entrypoint start_game() =
         put(state{game_started = true})
-    
+
     entrypoint is_game_started() : bool =
         state.game_started
 
     public entrypoint get_question(id: int) : question =
-        state.questions[id] 
-    
+        state.questions[id]
+
     public entrypoint read_test_value() : int =
         state.testvalue
-    
+
     public entrypoint get_owner() : address =
         Contract.creator
-    
+
     public entrypoint return_caller() : address =
         Call.caller
 
     public stateful entrypoint add_test_value(new_testvalue: int) : int =
-        put(state{testvalue = new_testvalue}) 
+        put(state{testvalue = new_testvalue})
         new_testvalue
-    
-    entrypoint return_participants() = 
+
+    entrypoint return_participants() =
         state.participants
 `
